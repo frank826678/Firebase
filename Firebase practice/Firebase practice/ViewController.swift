@@ -29,7 +29,12 @@ class ViewController: UIViewController {
     //let ref = Database.database().reference()
     
         //login()
-        createData()
+        //createData()
+        
+        //readData()
+        
+        readSpecifiedData()
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,17 +186,66 @@ class ViewController: UIViewController {
     }
     
     func readData() {
-//        let userID = Auth.auth().currentUser?.uid
-//        ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
-//            // Get user value
-//            let value = snapshot.value as? NSDictionary
-//            let username = value?["username"] as? String ?? ""
-//            let user = User(username: username)
+        
+        //let userID = Auth.auth().currentUser?.uid
+        
+        //ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        ref.child("article_database").observeSingleEvent(of: .value, with: { (snapshot) in
+
+        
+        
+            // Get user value
+            
+            //let value = snapshot.value as? NSDictionary
+            
+            //let username = value?["username"] as? String ?? ""
+            
+            //let username = value?["article_title"] as? String ?? ""
+            
+            print("找到的資料是\(snapshot)")
+            
+            //let user = User(username: username)
+
+            // ...
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    func readSpecifiedData() {
+        
+//        ref.child("article_database").child("article_id").observeSingleEvent(of: .value, with: { (snapshot) in
 //
-//            // ...
+//            print("找到的資料是\(snapshot)")
+//
 //        }) { (error) in
 //            print(error.localizedDescription)
 //        }
+        
+        //article_tag:
+        
+//        let username = "SomeUser"
+//
+//        FIRDatabase.database().reference.child("users").queryOrderedByChild("username").queryStartingAtValue(username).queryEndingAtValue(username).observeEventType(.ChildAdded, withBlock: { (snapshot) -> Void in
+//
+//        }
+        
+        let keyWord = "生活"
+        
+        let postsByMostPopular = ref.child("article_database").queryOrdered(byChild: "article_tag").queryEqual(toValue: keyWord)
+        
+        postsByMostPopular.observeSingleEvent(of: .value, with: { (snapshot)
+            
+            in
+            
+            print("找到的資料是\(snapshot)")
+            let a = snapshot.value as! NSDictionary
+            print("奇怪東西\(a)")
+            
+                    })
+        
+        
     }
     
     func createData() {
@@ -215,6 +269,8 @@ class ViewController: UIViewController {
     
 }
 
+
+
 //@IBAction func didTapEmailLogin(_ sender: AnyObject) {
 //    if let email = self.emailField.text, let password = self.passwordField.text {
 //        showSpinner {
@@ -236,3 +292,6 @@ class ViewController: UIViewController {
 //        self.showMessagePrompt("email/password can't be empty")
 //    }
 //}
+
+
+
