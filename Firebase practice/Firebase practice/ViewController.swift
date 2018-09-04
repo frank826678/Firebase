@@ -11,8 +11,12 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 
-class ViewController: UIViewController {
+//ybYLaENWESY3KRbPzo95XNG7RCv2
+//frank826678@gmail.com
 
+
+class ViewController: UIViewController {
+    
     @IBOutlet weak var emailTextInput: UITextField!
     
     @IBOutlet weak var passwordTextInput: UITextField!
@@ -21,107 +25,128 @@ class ViewController: UIViewController {
     
     //ref = Database.database().reference()
     //Expected declaration
-
     
-    @IBAction func logInBtnClick(_ sender: UIButton) {
     
+    @IBAction func addArticleBtnClick(_ sender: UIButton) {
         
-    //let ref = Database.database().reference()
-    
-        //login()
-        //createData()
-        
-        //readData()
-        
-        readSpecifiedData()
+        createData()
         
     }
+    
+    @IBAction func logInBtnClick(_ sender: UIButton) {
+        
+        
+        //let ref = Database.database().reference()
+        
+        login()
+        
+        //createData()
+        
+        //OK
+        //readData()
+        
+        //readSpecifiedData()
+        
+    }
+    
+    
+    @IBAction func searchEmailBtnClick(_ sender: UIButton) {
+        
+        //readSpecifiedData()
+        readEmailToUid()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         ref = Database.database().reference()
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        // [START auth_listener]
-//        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-//            // [START_EXCLUDE]
-//            self.setTitleDisplay(user)
-//            self.tableView.reloadData()
-//            // [END_EXCLUDE]
-//        }
-//        // [END auth_listener]
-//    }
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        super.viewWillAppear(animated)
+    //        // [START auth_listener]
+    //        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+    //            // [START_EXCLUDE]
+    //            self.setTitleDisplay(user)
+    //            self.tableView.reloadData()
+    //            // [END_EXCLUDE]
+    //        }
+    //        // [END auth_listener]
+    //    }
     
-//    @IBAction func didTapEmailLogin(_ sender: AnyObject) {
-//        if let email = self.emailField.text, let password = self.passwordField.text {
-//            showSpinner {
-//                // [START headless_email_auth]
-//                Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-//                    // [START_EXCLUDE]
-//                    self.hideSpinner {
-//                        if let error = error {
-//                            self.showMessagePrompt(error.localizedDescription)
-//                            return
-//                        }
-//                        self.navigationController!.popViewController(animated: true)
-//                    }
-//                    // [END_EXCLUDE]
-//                }
-//                // [END headless_email_auth]
-//            }
-//        } else {
-//            self.showMessagePrompt("email/password can't be empty")
-//        }
-//    }
-
-
+    //    @IBAction func didTapEmailLogin(_ sender: AnyObject) {
+    //        if let email = self.emailField.text, let password = self.passwordField.text {
+    //            showSpinner {
+    //                // [START headless_email_auth]
+    //                Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+    //                    // [START_EXCLUDE]
+    //                    self.hideSpinner {
+    //                        if let error = error {
+    //                            self.showMessagePrompt(error.localizedDescription)
+    //                            return
+    //                        }
+    //                        self.navigationController!.popViewController(animated: true)
+    //                    }
+    //                    // [END_EXCLUDE]
+    //                }
+    //                // [END headless_email_auth]
+    //            }
+    //        } else {
+    //            self.showMessagePrompt("email/password can't be empty")
+    //        }
+    //    }
+    
+    
     func login() {
         
-        let email = emailTextInput.text
-        let password = passwordTextInput.text
+        //let email = emailTextInput.text
+        //let password = passwordTextInput.text
         
-//        Auth.auth().signIn(withEmail: <#T##String#>, link: <#T##String#>, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
+        //問題 不管怎樣都登入成功 why?
+        
+        let email = "321"
+        let password = "22fra"
+        
+        //        Auth.auth().signIn(withEmail: <#T##String#>, link: <#T##String#>, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
         
         //OK
         //Auth.auth().signIn(withEmail: email!, password: password!, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
         
         /*
-        
-        // Sign in with email and pass.
-        // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // [START_EXCLUDE]
-            if (errorCode === 'auth/wrong-password') {
-                alert('Wrong password.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log(error);
-            document.getElementById('quickstart-sign-in').disabled = false;
-            // [END_EXCLUDE]
-        });
-        // [END authwithemail]
-        
-        */
+         
+         // Sign in with email and pass.
+         // [START authwithemail]
+         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+         // Handle Errors here.
+         var errorCode = error.code;
+         var errorMessage = error.message;
+         // [START_EXCLUDE]
+         if (errorCode === 'auth/wrong-password') {
+         alert('Wrong password.');
+         } else {
+         alert(errorMessage);
+         }
+         console.log(error);
+         document.getElementById('quickstart-sign-in').disabled = false;
+         // [END_EXCLUDE]
+         });
+         // [END authwithemail]
+         
+         */
         
         
         if email != "" && password != "" {
             
             // Login with the Firebase's authUser method
             
-            Auth.auth().signIn(withEmail: email!, password: password!, completion: { error, authData in
+            Auth.auth().signIn(withEmail: email, password: password, completion: { error, authData in
                 
                 if error != nil {
                     print(error)
@@ -143,24 +168,24 @@ class ViewController: UIViewController {
                     //self.performSegueWithIdentifier("CurrentlyLoggedIn", sender: nil)
                 }
             })
-
             
-//            DataService.dataService.BASE_REF.authUser(email, password: password, withCompletionBlock: { error, authData in
-//
-//                if error != nil {
-//                    print(error)
-//                    self.loginErrorAlert("Oops!", message: "Check your username and password.")
-//                } else {
-//
-//                    // Be sure the correct uid is stored.
-//
-//                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: "uid")
-//
-//                    // Enter the app!
-//
-//                    self.performSegueWithIdentifier("CurrentlyLoggedIn", sender: nil)
-//                }
-//            })
+            
+            //            DataService.dataService.BASE_REF.authUser(email, password: password, withCompletionBlock: { error, authData in
+            //
+            //                if error != nil {
+            //                    print(error)
+            //                    self.loginErrorAlert("Oops!", message: "Check your username and password.")
+            //                } else {
+            //
+            //                    // Be sure the correct uid is stored.
+            //
+            //                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: "uid")
+            //
+            //                    // Enter the app!
+            //
+            //                    self.performSegueWithIdentifier("CurrentlyLoggedIn", sender: nil)
+            //                }
+            //            })
             
         } else {
             
@@ -170,8 +195,8 @@ class ViewController: UIViewController {
             
             print("帳號或密碼錯誤")
         }
-
- 
+        
+        
     }
     
     func loginErrorAlert(title: String, message: String) {
@@ -192,9 +217,9 @@ class ViewController: UIViewController {
         //ref.child("users").child(userID!).observeSingleEvent(of: .value, with: { (snapshot) in
         
         ref.child("article_database").observeSingleEvent(of: .value, with: { (snapshot) in
-
-        
-        
+            
+            
+            
             // Get user value
             
             //let value = snapshot.value as? NSDictionary
@@ -206,33 +231,62 @@ class ViewController: UIViewController {
             print("找到的資料是\(snapshot)")
             
             //let user = User(username: username)
-
+            
             // ...
         }) { (error) in
             print(error.localizedDescription)
         }
     }
     
+    func readEmailToUid() {
+        
+        
+        ref.child("user_database").child("frank826678_gmail_com").observeSingleEvent(of: .value) { (snapshot) in
+            // Get user value
+            let value = snapshot.value as? NSDictionary
+            
+            let userName = value?["name"] as? String
+            print(userName!)
+            
+            let userEmail = value?["email"] as? String
+            print(userEmail!)
+            
+            let userUid = value?["uid"] as? String
+            print(userUid!)
+            
+            //Output
+            //Frank2
+            //frank826678@gmail.com
+            //ybYLaENWESY3KRbPzo95XNG7RCv2
+            // OK
+
+        }
+        
+        
+    }
+    
     func readSpecifiedData() {
         
-//        ref.child("article_database").child("article_id").observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//            print("找到的資料是\(snapshot)")
-//
-//        }) { (error) in
-//            print(error.localizedDescription)
-//        }
+        //        ref.child("article_database").child("article_id").observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //            print("找到的資料是\(snapshot)")
+        //
+        //        }) { (error) in
+        //            print(error.localizedDescription)
+        //        }
         
         //article_tag:
         
-//        let username = "SomeUser"
-//
-//        FIRDatabase.database().reference.child("users").queryOrderedByChild("username").queryStartingAtValue(username).queryEndingAtValue(username).observeEventType(.ChildAdded, withBlock: { (snapshot) -> Void in
-//
-//        }
+        //        let username = "SomeUser"
+        //
+        //        FIRDatabase.database().reference.child("users").queryOrderedByChild("username").queryStartingAtValue(username).queryEndingAtValue(username).observeEventType(.ChildAdded, withBlock: { (snapshot) -> Void in
+        //
+        //        }
         
-        let keyWord = "生活"
+        //let keyWord = "生活"
+        let keyWord = "ybYLaENWESY3KRbPzo95XNG7RCv2"
         
+        // queryOrdered 似乎只能搜尋一層
         let postsByMostPopular = ref.child("article_database").queryOrdered(byChild: "article_tag").queryEqual(toValue: keyWord)
         
         postsByMostPopular.observeSingleEvent(of: .value, with: { (snapshot)
@@ -243,27 +297,90 @@ class ViewController: UIViewController {
             let a = snapshot.value as! NSDictionary
             print("奇怪東西\(a)")
             
-                    })
+        })
         
         
     }
     
+    func signUp() {
+        
+        let email = "321"
+        let password = "22fra"
+        
+        Auth.auth().createUser(withEmail: email, password: password, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
+        
+        FIRAuth.auth()?.createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+            
+            if error == nil {
+                print("You have successfully signed up")
+                //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+                self.present(vc!, animated: true, completion: nil)
+                
+            } else {
+                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func createData() {
         
+        // time
+        let now:Date = Date()
+        
+        let timeInterval:TimeInterval = now.timeIntervalSince1970
+        
+        let time:Int = Int(timeInterval)
+        
+        // 結果 1535982462
+        
+        //let timeFirebase = now
+        
+        //        Date().millisecondsSince1970 // 1476889390939
+        //        Date(milliseconds: 0) // "Dec 31, 1969, 4:00 PM" (PDT variant of 1970 UTC)
+        // timeend
+        
+        // 要拿 uid 應該要設定登入
         let key = ref.child("posts").childByAutoId().key
         
         
+        // "article_database"
         // 在 user_database 下亂數生成一個數字 且下面有一個 ""123": "33fra""
-        self.ref.child("user_database").child(key).setValue(["123": "33fra"])
         
-//        let post = ["uid": userID,
-//                    "author": username,
-//                    "title": title,
-//                    "body": body]
+        //OK
+        //self.ref.child("user_database").child(key).setValue(["123": "33fra"])
         
-//        let childUpdates = ["/posts/\(key)": post,
-//                            "/user-posts/\(userID)/\(key)/": post]
-//        //ref.updateChildValues(childUpdates)
+        //self.ref.child("article_database").child(key).setValue(["123": "33fra"])
+        
+        //self.ref.child("article_database").child(key).setValue(["article_content" : "testtest","article_id" : key,"article_tag" : "生活","article_title" : "Test 1","create_time" : 1535980912734,"uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"])
+        
+        self.ref.child("article_database").child(key).setValue(["article_content" : "franktesttest","article_id" : key,"article_tag" : "八卦","article_title" : "FrankTest 1","create_time" : time,"uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"])
+        
+        
+        
+        
+        //        "-LLUaB0UZkAIO78TcKFG" : {
+        //            "article_content" : "testtest",
+        //            "article_id" : "-LLUaB0UZkAIO78TcKFG",
+        //            "article_tag" : "生活",
+        //            "article_title" : "Test 1",
+        //            "create_time" : 1535980912734,
+        //            "uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"
+        //        }
+        //        let post = ["uid": userID,
+        //                    "author": username,
+        //                    "title": title,
+        //                    "body": body]
+        
+        //        let childUpdates = ["/posts/\(key)": post,
+        //                            "/user-posts/\(userID)/\(key)/": post]
+        //        //ref.updateChildValues(childUpdates)
         
     }
     
