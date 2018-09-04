@@ -21,10 +21,19 @@ class SearchViewController: UIViewController {
     
     var tagArray: [String] = []
     var friendArticleArray: [String] = []
+    var displayMyFriendArray: [String] = []
+
+    @IBOutlet weak var friendEmailTextInput: UITextField!
     
+    @IBAction func addFriendBtn(_ sender: UIButton) {
+        
+        addFriend()
+        
+    }
     //var commentsArray: [String] = []
     //var anotherArr: [Int] = []
     
+    //測試
     @IBAction func searchArticleBtnClick(_ sender: UIButton) {
         
         readSpecifiedData()
@@ -45,6 +54,13 @@ class SearchViewController: UIViewController {
     
     }
     
+    
+    @IBAction func displayAllFriend(_ sender: UIButton) {
+        
+        //假設目前使用者 需要新增 userdefault
+        displayAllFriend()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -287,7 +303,166 @@ class SearchViewController: UIViewController {
         
         
     }
+    
+    func displayAllFriend() {
+        
+        //假設目前使用者 需要新增 userdefault
+        
+        let user = "frank826678_gmail_com"
+        //queryOrdered(byChild: "friends").queryEqual(toValue: "friends")
+        // queryOrdered 似乎只能搜尋一層
+        
+        //不太 OK
+        //let postsByMostPopular = ref.child("user_database").child(user).queryOrdered(byChild: "friends")
+        
+        //displayMyFriendArray
+        
+        //let postsByMostPopular = ref.child("user_database").child(user).queryEqual(toValue: "friends")
+        let postsByMostPopular = ref.child("user_database").child(user).child("friends")
+        
+        postsByMostPopular.observeSingleEvent(of: .value, with: { (snapshot)
+            
+            in
+            
+            //OK
+            
+            guard let value = snapshot.value as? NSDictionary else { return }
+            
+            print("以下為value資料")
+            print(value)
+            print("value資料結束")
+            //let friendsNumber =  value.value(forKey: "friends")
+            
+            //print(friendsNumber)
+            let allkeyCount = value.allKeys.count
+            print(allkeyCount)
+            
+            print("------")
+            //let key = value?.allKeys.first
+            for index in 0 ..< allkeyCount {
+                //guard let member = value[value.allKeys[0]] as? NSDictionary else { return }
+                //guard let member = value[value.allKeys[index]] as? NSDictionary else { return }
+                
+                guard let allFriends = value.allKeys[index] as? String else { return }
+                
+                
+//                guard let articleTitle = member["article_title"] as? String else { return }
+                
+                print("以下為allFriends資料")
+                
+                print(allFriends)
+                
+                self.displayMyFriendArray.append(allFriends)
+                
+                print("allFriends資料結束")
+                
+            }
+            
+            print("----------------")
+            print("所有 friendArticle 資料 \(self.displayMyFriendArray)")
+            
+            
+            
+        })
+        
+    }
+    
+    func addFriend() {
+        
+        guard let friendEmail = friendEmailTextInput.text else { return }
+        
+//        let str = friendEmail
+//        let replaced = str.replacingOccurrences(of: "@", with: "_")
+//        let notSureFriend = replaced.replacingOccurrences(of: ".", with: "_")
+        
+        //可以使用 userdefault
+        //guard let myId = "frank826678_gmail_com" else { return }
+        
+        let myUserId2 = "frank826678_gmail_com"
+        
+        let myUserId = "frank826678@gmail.com"
+        
+        // kazjiay@gmail.com kazjiay_gmail_com
+       //ref.child("user_database").child(myUserId).child("friends").child(notSureFriend).child("accept").setValue("好友")
+        
+        
+        
+                ref.child("user_database").queryOrdered(byChild: "email").queryEqual(toValue: friendEmail).observeSingleEvent(of: .value) { (snapshot) in
+                    let value = snapshot.value as? NSDictionary
+                    print(value as Any)
+                    guard value != nil else {
+                        print("使用者不存在")
+                        return
+                    }
+                    
 
+        
+                    guard let valueKey = value?.allKeys[0] as? String else {
+                        print("沒拿到valueKey")
+                        return
+                    }
+                    
+                    //print("valueKey是\(valueKey)")
+                    
+//                    self.ref.updateChildValues(["/user_database/\(valueKey)/friends/\(myUserId)": "是否接受邀請"])
+//                    self.ref.updateChildValues(["/user_database/\(myUserId)/friends/\(valueKey)": "發送邀請中"])
+                    
+                    self.ref.updateChildValues(["/user_database/\(valueKey)/friends/\(myUserId2)": ["accept": "是否接受邀請","friend_email": myUserId]])
+                    self.ref.updateChildValues(["/user_database/\(myUserId2)/friends/\(valueKey)": ["accept": "發送邀請中","friend_email": friendEmail]])
+                    
+                    self.friendEmailTextInput.text = ""
+                    
+        }
+        
+       
+        
+        //let postsByMostPopular = ref.child("user_database").child(myUserId).child("friends")
+        
+  
+        
+       //.queryEqual(toValue: "好友")
+        
+        
+//        ref.child("user_database").child(myUserId).queryOrdered(byChild: "friends").queryEqual(toValue: "kazjiay@gmail.com").observeSingleEvent(of: .value) { (snapshot) in
+//            let value = snapshot.value as? NSDictionary
+//
+//            print("拿到的value是\(value)")
+//            //print(value as Any)
+//
+//            guard value != nil else {
+//                print("User doesn't exist!")
+//                return
+//            }
+//        }
+        
+        
+        //ref.child(<#T##pathString: String##String#>)
+        
+        
+   
+        
+//        guard let email = friendsEmailText.text else { return }
+//        guard let userId = UserManager.shared.getUserId() else { return }
+//
+//        ref.child("users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .value) { (snapshot) in
+//            let value = snapshot.value as? NSDictionary
+//            print(value as Any)
+//            guard value != nil else {
+//                print("User doesn't exist!")
+//                return
+//            }
+//
+//            guard let valueKey = value?.allKeys[0] as? String else {
+//                return
+//            }
+//            self.ref.updateChildValues(["/users/\(valueKey)/contact/\(userId)": "待接受"])
+//            self.ref.updateChildValues(["/users/\(userId)/contact/\(valueKey)": "待邀請"])
+//
+//            self.friendsEmailText.text = ""
+//        }
+        
+    
+    }
 }
 
 //guard let dictionary = snapshot.value as? [String: Any] else {

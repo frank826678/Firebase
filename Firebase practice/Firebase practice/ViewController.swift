@@ -38,6 +38,13 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func signUpBtnClick(_ sender: UIButton) {
+        
+        //createNewUser()
+        
+    }
+    
+    
     @IBAction func logInBtnClick(_ sender: UIButton) {
         
         
@@ -378,6 +385,26 @@ class ViewController: UIViewController {
     
    // }
     
+    
+    /*
+    func createNewUser() {
+        
+        let email = emailTextInput.text
+        let password = passwordTextInput.text
+        
+        let NewUseruid = ref.child("user_database").childByAutoId().key
+        
+        self.ref.child("users").child(uid).setValue(["email": userEmail.text , "name": userName.text])
+        
+        // Save userdata to singleton
+        
+        UserDefaults.standard.set(uid, forKey: "userId")
+        UserDefaults.standard.set(userName.text, forKey: "userName")
+        UserDefaults.standard.set(userEmail.text, forKey: "userEmail")
+    
+    }
+    
+    */
     func createData() {
         
         // time
