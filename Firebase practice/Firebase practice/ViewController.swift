@@ -21,6 +21,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var passwordTextInput: UITextField!
     
+    
+    @IBOutlet weak var searchEmailResultLabel: UILabel!
+    
+    @IBOutlet weak var friendTextInput: UITextField!
+    
     var ref: DatabaseReference!
     
     //ref = Database.database().reference()
@@ -38,14 +43,14 @@ class ViewController: UIViewController {
         
         //let ref = Database.database().reference()
         
-        login()
+        //login()
         
         //createData()
         
         //OK
         //readData()
         
-        //readSpecifiedData()
+        readSpecifiedData()
         
     }
     
@@ -240,9 +245,49 @@ class ViewController: UIViewController {
     
     func readEmailToUid() {
         
+        if let friendEmail = friendTextInput.text {
+            
+            //frank826678@gmail.com
+           //ref.child("user_database").child("frank826678_gmail_com").observeSingleEvent(of: .value)
+            
+            let str = friendEmail
+            let replaced = str.replacingOccurrences(of: "@", with: "_")
+            let replaced2 = replaced.replacingOccurrences(of: ".", with: "_")
+            
+            //let newStr = str.replace(target:"@",withString: "_")
+            print(replaced2)
+            
+            ref.child("user_database").child(replaced2).observeSingleEvent(of: .value) { (snapshot) in
+                // Get user value
+                
+                
+                
+                guard let value = snapshot.value as? NSDictionary else { return self.searchEmailResultLabel.text = "找不到資料" }
+                
+                guard let userName = value["name"] as? String else { return }
+                
+                
+                guard let userEmail = value["email"] as? String else { return }
+                
+                
+                guard let userUid = value["uid"] as? String else { return }
+                
+                print(userName)
+                print(userEmail)
+                print(userUid)
+                
+                self.searchEmailResultLabel.text = ("名字:\(userName)。Email是:\(userEmail)。UID是:\(userUid)")
+                //self.searchEmailResultLabel.text = ("找到UID為\(userUid)")
+            
+        }
         
-        ref.child("user_database").child("frank826678_gmail_com").observeSingleEvent(of: .value) { (snapshot) in
-            // Get user value
+            
+            
+            //self.searchEmailResultLabel.text = ("找的名字\(userName)Email\(userEmail)UID\(userUid)")
+            
+            //原始
+            
+            /*
             let value = snapshot.value as? NSDictionary
             
             let userName = value?["name"] as? String
@@ -253,6 +298,7 @@ class ViewController: UIViewController {
             
             let userUid = value?["uid"] as? String
             print(userUid!)
+            */
             
             //Output
             //Frank2
@@ -283,11 +329,13 @@ class ViewController: UIViewController {
         //
         //        }
         
-        //let keyWord = "生活"
-        let keyWord = "ybYLaENWESY3KRbPzo95XNG7RCv2"
+        let keyWord = "生活"
+        //let keyWord = "ybYLaENWESY3KRbPzo95XNG7RCv2"
         
         // queryOrdered 似乎只能搜尋一層
         let postsByMostPopular = ref.child("article_database").queryOrdered(byChild: "article_tag").queryEqual(toValue: keyWord)
+        
+        //"article_tag"
         
         postsByMostPopular.observeSingleEvent(of: .value, with: { (snapshot)
             
@@ -302,41 +350,49 @@ class ViewController: UIViewController {
         
     }
     
-    func signUp() {
-        
-        let email = "321"
-        let password = "22fra"
-        
-        Auth.auth().createUser(withEmail: email, password: password, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
-        
-        FIRAuth.auth()?.createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
-            
-            if error == nil {
-                print("You have successfully signed up")
-                //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
-                
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
-                self.present(vc!, animated: true, completion: nil)
-                
-            } else {
-                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                
-                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alertController.addAction(defaultAction)
-                
-                self.present(alertController, animated: true, completion: nil)
-            }
-        }
-    }
+//    func signUp() {
+//
+//        let email = "321"
+//        let password = "22fra"
+//
+//        Auth.auth().createUser(withEmail: email, password: password, completion: <#T##AuthDataResultCallback?##AuthDataResultCallback?##(AuthDataResult?, Error?) -> Void#>)
+//
+////        FIRAuth.auth()?.createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+//
+//            if error == nil {
+//                print("You have successfully signed up")
+//                //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
+//
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+//                self.present(vc!, animated: true, completion: nil)
+//
+//            } else {
+//                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+//
+//                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                alertController.addAction(defaultAction)
+//
+//                self.present(alertController, animated: true, completion: nil)
+//            }
+//        }
+    
+   // }
     
     func createData() {
         
         // time
         let now:Date = Date()
         
-        let timeInterval:TimeInterval = now.timeIntervalSince1970
+        //let timeInterval:TimeInterval = now.timeIntervalSince1970
         
-        let time:Int = Int(timeInterval)
+        //let time:Int = Int(timeInterval)
+        
+        let dateformatter = DateFormatter()
+        
+        dateformatter.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
+        let timeNow = dateformatter.string(from: now)
+        
+        print("現在日期时间：\(timeNow)")
         
         // 結果 1535982462
         
@@ -360,7 +416,7 @@ class ViewController: UIViewController {
         
         //self.ref.child("article_database").child(key).setValue(["article_content" : "testtest","article_id" : key,"article_tag" : "生活","article_title" : "Test 1","create_time" : 1535980912734,"uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"])
         
-        self.ref.child("article_database").child(key).setValue(["article_content" : "franktesttest","article_id" : key,"article_tag" : "八卦","article_title" : "FrankTest 1","create_time" : time,"uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"])
+        self.ref.child("article_database").child(key).setValue(["article_content" : "franktest01","article_id" : key,"article_tag" : "八卦","article_title" : "FrankTest01","create_time" : timeNow,"email" : "frank826678@gmail.com"])
         
         
         
@@ -383,7 +439,6 @@ class ViewController: UIViewController {
         //        //ref.updateChildValues(childUpdates)
         
     }
-    
 }
 
 

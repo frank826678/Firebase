@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		014C3CFF213E28E500F8F10A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014C3CFE213E28E500F8F10A /* SearchViewController.swift */; };
 		018D5E3F213D0B55006F7B36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018D5E3E213D0B55006F7B36 /* AppDelegate.swift */; };
 		018D5E41213D0B55006F7B36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018D5E40213D0B55006F7B36 /* ViewController.swift */; };
 		018D5E44213D0B55006F7B36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 018D5E42213D0B55006F7B36 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		014C3CFE213E28E500F8F10A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		018D5E3B213D0B55006F7B36 /* Firebase practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Firebase practice.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		018D5E3E213D0B55006F7B36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		018D5E40213D0B55006F7B36 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			children = (
 				018D5E3E213D0B55006F7B36 /* AppDelegate.swift */,
 				018D5E40213D0B55006F7B36 /* ViewController.swift */,
+				014C3CFE213E28E500F8F10A /* SearchViewController.swift */,
 				018D5E42213D0B55006F7B36 /* Main.storyboard */,
 				018D5E45213D0B56006F7B36 /* Assets.xcassets */,
 				018D5E47213D0B56006F7B36 /* LaunchScreen.storyboard */,
@@ -210,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				014C3CFF213E28E500F8F10A /* SearchViewController.swift in Sources */,
 				018D5E41213D0B55006F7B36 /* ViewController.swift in Sources */,
 				018D5E3F213D0B55006F7B36 /* AppDelegate.swift in Sources */,
 			);
