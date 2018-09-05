@@ -26,6 +26,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var friendTextInput: UITextField!
     
+    @IBOutlet weak var articleTitleInput: UITextField!
+    
+    @IBOutlet weak var articleContentInput: UITextField!
+    
     var ref: DatabaseReference!
     
     //ref = Database.database().reference()
@@ -40,7 +44,9 @@ class ViewController: UIViewController {
     
     @IBAction func signUpBtnClick(_ sender: UIButton) {
         
-        //createNewUser()
+        createNewUser()
+        
+        //寫死 userdefault 目前顯示 email name
         
     }
     
@@ -50,14 +56,14 @@ class ViewController: UIViewController {
         
         //let ref = Database.database().reference()
         
-        //login()
+        login()
         
         //createData()
         
         //OK
         //readData()
         
-        readSpecifiedData()
+        //readSpecifiedData()
         
     }
     
@@ -385,27 +391,34 @@ class ViewController: UIViewController {
     
    // }
     
+    //start
     
-    /*
     func createNewUser() {
-        
+     
         let email = emailTextInput.text
         let password = passwordTextInput.text
+     
+        //let NewUseruid = ref.child("user_database").childByAutoId().key
+     
+        //        self.ref.child("users").child(uid).setValue(["email": userEmail.text , "name": userName.text])
+     
+        // uid 應該動態生成
         
-        let NewUseruid = ref.child("user_database").childByAutoId().key
+        //UserDefaults.standard.set(uid, forKey: "userId")
         
-        self.ref.child("users").child(uid).setValue(["email": userEmail.text , "name": userName.text])
+        let frankName = "Frank2"
+        let frankEmail = "frank826678@gmail.com"
         
-        // Save userdata to singleton
-        
-        UserDefaults.standard.set(uid, forKey: "userId")
-        UserDefaults.standard.set(userName.text, forKey: "userName")
-        UserDefaults.standard.set(userEmail.text, forKey: "userEmail")
+        UserDefaults.standard.set(frankName, forKey: "userName")
+        UserDefaults.standard.set(frankEmail, forKey: "userEmail")
     
     }
     
-    */
+ 
     func createData() {
+        
+        let articleContent = articleContentInput.text
+        let articletitle = articleTitleInput.text
         
         // time
         let now:Date = Date()
@@ -443,7 +456,7 @@ class ViewController: UIViewController {
         
         //self.ref.child("article_database").child(key).setValue(["article_content" : "testtest","article_id" : key,"article_tag" : "生活","article_title" : "Test 1","create_time" : 1535980912734,"uid" : "6yWtXAWAtFR3hozYw64M11Cd8Bn2"])
         
-        self.ref.child("article_database").child(key).setValue(["article_content" : "franktest01","article_id" : key,"article_tag" : "八卦","article_title" : "FrankTest01","create_time" : timeNow,"email" : "frank826678@gmail.com"])
+        self.ref.child("article_database").child(key).setValue(["article_content" : articleContent,"article_id" : key,"article_tag" : "八卦","article_title" : articletitle,"create_time" : timeNow,"email" : "frank826678@gmail.com"])
         
         
         

@@ -11,10 +11,10 @@ import Foundation
 class UserManager {
     static let shared = UserManager()
     
-    func getUserId() -> String? {
-        let userId = UserDefaults.standard.string(forKey: "userId")
-        return userId
-    }
+//    func getUserId() -> String? {
+//        let userId = UserDefaults.standard.string(forKey: "userId")
+//        return userId
+//    }
     
     func getUserName() -> String? {
         let userName = UserDefaults.standard.string(forKey: "userName")

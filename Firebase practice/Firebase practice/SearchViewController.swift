@@ -36,10 +36,53 @@ class SearchViewController: UIViewController {
     //測試
     @IBAction func searchArticleBtnClick(_ sender: UIButton) {
         
-        readSpecifiedData()
+        //readSpecifiedData()
         
+        //showAlertWith(userId: "frank", friendKey: "fff", name: "Cccc")
         
     }
+    
+    //目前是否有人傳送邀請給我
+    
+    @IBAction func searchFriendAccept(_ sender: UIButton) {
+        
+        guard let useremil = UserManager.shared.getUserEmail() else { return }
+        print(useremil)
+        
+        let myUserId2 = "frank826678_gmail_com"
+        
+        let myUserId = "frank826678@gmail.com"
+        
+        ref.child("user_database").child(myUserId2).child("friends").observe(.childAdded) { (snapshot) in
+            
+            let friendKey = snapshot.key
+            
+            guard let value = snapshot.value as? String else { return }
+            if value == "發送邀請中"{
+                return
+            } else if value == "是否接受邀請" {
+                
+                //可以找朋友名字
+                self.ref.child("user_database").child(snapshot.key).child("friends").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    print(snapshot.value)
+                    
+                    print("---------")
+                    //guard let name = snapshot.value as? String else { return }
+                    
+                    //self.showAlertWith(userId: userId, friendKey: friendKey, name: name)
+                    
+                    
+                    //self.showAlertWith(myUserId: myUserId, myUserId2: myUserId2, friendEmail: <#T##String#>, Friendname: <#T##String#>)
+                    
+                })
+            }
+        }
+        
+    }
+    
+    
+    //End
     
     
     @IBAction func searchTagBtnClick(_ sender: UIButton) {
@@ -67,8 +110,67 @@ class SearchViewController: UIViewController {
         
         ref = Database.database().reference()
         
+        friendSendMessage()
+        
         // Do any additional setup after loading the view.
-    }
+        
+        /*
+         
+
+         
+        ref.child("user_database").queryOrdered(byChild: "email").queryEqual(toValue: friendEmail).observeSingleEvent(of: .value) { (snapshot) in
+        let value = snapshot.value as? NSDictionary
+        print(value as Any)
+        guard value != nil else {
+            print("使用者不存在")
+            return
+        }
+        
+        
+        
+        guard let valueKey = value?.allKeys[0] as? String else {
+            print("沒拿到valueKey")
+            return
+        }
+        */
+        
+        //start
+        
+//        let myUserId2 = "frank826678_gmail_com"
+//
+//        let myUserId = "frank826678@gmail.com"
+        
+//        self.ref.updateChildValues(["/user_database/\(valueKey)/friends/\(myUserId2)": ["accept": "是否接受邀請","friend_email": myUserId]])
+//
+//        //我發給別人 在自己的樹下 產生別人的名字然後發送邀請中
+//        self.ref.updateChildValues(["/user_database/\(myUserId2)/friends/\(valueKey)": ["accept": "發送邀請中","friend_email": friendEmail]])
+        
+
+        
+        
+        //End
+        //參考
+
+        
+//        ref.child("users").child(userId).child("contact").observe(.childAdded) { (snapshot) in
+//            let friendKey = snapshot.key
+//
+//            guard let value = snapshot.value as? String else { return }
+//            if value == "待邀請"{
+//                return
+//            } else if value == "待接受" {
+//                self.ref.child("users").child(snapshot.key).child("name").observeSingleEvent(of: .value, with: { (snapshot) in
+//                    print(snapshot.value)
+//                    guard let name = snapshot.value as? String else { return }
+//                    self.showAlertWith(userId: userId, friendKey: friendKey, name: name)
+//                })
+//            }
+//    }
+        
+        
+        }
+        
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -211,7 +313,9 @@ class SearchViewController: UIViewController {
     
     func getSpecificFriendArticle() {
         
-        let tag = "rubysun137@hotmail.com"
+        //let tag = "rubysun137@hotmail.com"
+        
+        let tag = friendEmailTextInput.text
         
         // queryOrdered 似乎只能搜尋一層
         let postsByMostPopular = ref.child("article_database").queryOrdered(byChild: "email").queryEqual(toValue: tag)
@@ -408,6 +512,8 @@ class SearchViewController: UIViewController {
 //                    self.ref.updateChildValues(["/user_database/\(myUserId)/friends/\(valueKey)": "發送邀請中"])
                     
                     self.ref.updateChildValues(["/user_database/\(valueKey)/friends/\(myUserId2)": ["accept": "是否接受邀請","friend_email": myUserId]])
+                    
+                    //我發給別人 在自己的樹下 產生別人的名字然後發送邀請中
                     self.ref.updateChildValues(["/user_database/\(myUserId2)/friends/\(valueKey)": ["accept": "發送邀請中","friend_email": friendEmail]])
                     
                     self.friendEmailTextInput.text = ""
@@ -463,6 +569,75 @@ class SearchViewController: UIViewController {
         
     
     }
+    
+    func friendSendMessage() {
+        
+        //guard let useremail = UserManager.shared.getUserEmail() else { return }
+        //print(useremail)
+        
+        let myUserId2 = "frank826678_gmail_com"
+        
+        let myUserId = "frank826678@gmail.com"
+        
+        //observe(.childAdded)
+        
+        ref.child("user_database").child(myUserId2).child("friends").observe(.childChanged) { (snapshot) in
+            
+            //demo 用
+            self.showAlertWith(myUserId: myUserId, myUserId2: myUserId2, friendEmail: "RUBY@gmail.com", Friendname: "RUBY")
+            
+            let friendKey = snapshot.value
+            print(snapshot)
+            print("測試friendKey\(friendKey)") //Keykazjiay_gmail_com
+            
+            
+            
+//            let value = snapshot.value as? NSDictionary
+//            print(value as Any)
+//            guard value != nil else {
+//                print("使用者不存在")
+//                return
+//            }
+            
+//            Snap (kazjiay_gmail_com) {
+//                accept = "\U662f\U5426\U63a5\U53d7223";
+//                "friend_email" = "kazjiay@gmail.com";
+//            }
+//            測試friendKeykazjiay_gmail_com
+            
+            //let dictvalue = snapshot as! NSDictionary
+            //let acceptValue =
+            
+            guard let value = snapshot.value as? String else { return }
+            
+            print("裡面的值是\(value)")
+            print("--------------")
+            
+            
+            if value == "是否接受邀請"{
+                //可以找朋友名字
+                self.ref.child("user_database").child(snapshot.key).child("friends").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    print(snapshot.value)
+                    
+                    print("---------")
+                    //guard let name = snapshot.value as? String else { return }
+                    
+                    //self.showAlertWith(userId: userId, friendKey: friendKey, name: name)
+                    
+                    //應該放的位置
+                    //self.showAlertWith(myUserId: myUserId, myUserId2: myUserId2, friendEmail: <#T##String#>, Friendname: <#T##String#>)
+                    
+                })
+            } else if value == "發送邀請中" {
+                
+                return
+                //
+            }
+        }
+        
+    }
+    
 }
 
 //guard let dictionary = snapshot.value as? [String: Any] else {
@@ -491,5 +666,25 @@ class Article: NSObject {
     var displayTag: String?
     var displayArticleContent: String?
     //var isconnected: Bool?
+}
+
+extension SearchViewController {
+    
+    func showAlertWith(myUserId: String,myUserId2: String ,friendEmail: String, Friendname: String) {
+        let alerController = UIAlertController(title: "新朋友邀請", message: "\(Friendname) 傳送好友邀請給您!" , preferredStyle: .alert)
+        alerController.addAction(UIAlertAction(title: "拒絕", style: .default, handler: { (_) in
+            //self.ref.updateChildValues(["/users/\(userId)/contact/\(friendKey)": false])
+            //self.ref.updateChildValues(["/users/\(friendKey)/contact/\(userId)": false])
+        }))
+        alerController.addAction(UIAlertAction(title: "同意", style: .default, handler: { (_) in
+            
+            self.ref.updateChildValues(["/user_database/\(friendEmail)/friends/\(myUserId2)": ["accept": "好友","friend_email": myUserId]])
+            
+            //我發給別人 在自己的樹下 產生別人的名字然後發送邀請中
+            self.ref.updateChildValues(["/user_database/\(myUserId2)/friends/\(friendEmail)": ["accept": "好友","friend_email": friendEmail]])
+            
+        }))
+        self.present(alerController, animated: true, completion: nil)
+    }
 }
 
